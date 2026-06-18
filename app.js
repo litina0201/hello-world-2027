@@ -3,14 +3,18 @@ const DAY = 24 * 60 * 60 * 1000;
 const STORAGE_KEY = "hello-world-2027:v2";
 
 const quotes = [
-  "今天不用赢过所有人，只要比昨天多稳一点。",
-  "Keep going. The new world is loading.",
-  "把今天点亮，未来会收到信号。",
-  "不用急，稳定本身就是很强的能力。",
-  "Every small commit counts.",
-  "今天的努力，会在某一天突然发光。",
-  "Focus on today. The checkpoint will come.",
-  "你不是在倒数时间，你是在升级自己。"
+  "今天不用赢过所有人，只要比昨天多稳一点。 / Steady is strong.",
+  "继续往前，新世界正在加载。 / The new world is loading.",
+  "把今天点亮，未来会收到信号。 / Send the signal.",
+  "不用急，稳定本身就是很强的能力。 / Stay steady.",
+  "每一个小小的完成，都算一次提交。 / Every commit counts.",
+  "今天的努力，会在某一天突然发光。 / Light will find you.",
+  "专注今天，下一站自然会到。 / Focus on today.",
+  "你不是在倒数时间，你是在升级自己。 / Upgrade in progress.",
+  "慢一点也没关系，只要系统还在运行。 / Keep running.",
+  "累的时候也算数，因为你没有退出。 / Still online.",
+  "今天的你，已经比昨天多解锁了一点。 / One more unlock.",
+  "别怕暂时看不见结果，进度条一直在走。 / Progress is moving."
 ];
 
 const moods = [
@@ -74,7 +78,6 @@ const els = {
   customMoodInput: $("customMoodInput"),
   noteInput: $("noteInput"),
   photoInput: $("photoInput"),
-  videoInput: $("videoInput"),
   photoPreview: $("photoPreview"),
   checkpointList: $("checkpointList"),
   previewD320Button: $("previewD320Button"),
@@ -133,7 +136,7 @@ function saveState() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     return true;
   } catch {
-    showToast("Storage full. Try a shorter video.");
+    showToast("Storage full. Try a smaller image.");
     return false;
   }
 }
@@ -227,11 +230,7 @@ function renderMood(selected) {
 }
 
 function renderMemoryPreview(log) {
-  els.photoPreview.classList.toggle("empty", !log.photo && !log.video);
-  if (log.video) {
-    els.photoPreview.innerHTML = `<video src="${log.video}" muted controls playsinline></video>`;
-    return;
-  }
+  els.photoPreview.classList.toggle("empty", !log.photo);
   els.photoPreview.innerHTML = log.photo ? `<img alt="今日记忆照片" src="${log.photo}" />` : "No memory yet";
 }
 
@@ -270,7 +269,7 @@ function renderCheckpoints(left) {
 
 function renderMemory() {
   const records = Object.entries(state.logs)
-    .filter(([, log]) => log.unlocked || log.photo || log.video || log.note || log.mood)
+    .filter(([, log]) => log.unlocked || log.photo || log.note || log.mood)
     .sort(([a], [b]) => b.localeCompare(a));
 
   els.memoryCount.textContent = `${records.length} records`;
@@ -279,9 +278,7 @@ function renderMemory() {
         .map(([date, log]) => `
           <article class="memory-card">
             ${
-              log.video
-                ? `<div class="memory-visual has-photo"><video src="${log.video}" muted playsinline></video><span>VIDEO</span></div>`
-                : log.photo
+              log.photo
                 ? `<div class="memory-visual has-photo"><img alt="${date} 记忆照片" src="${log.photo}" /><span>PHOTO</span></div>`
                 : `<div class="memory-visual"><span>SIGNAL</span>${memoryMark(log.mood)}</div>`
             }
@@ -403,7 +400,6 @@ function handlePhoto(file) {
     reader.onload = () => {
       const log = todayLog();
       log.photo = reader.result;
-      log.video = "";
       log.unlocked = true;
       log.quote ||= randomQuote();
       saveState();
@@ -427,7 +423,6 @@ function handlePhoto(file) {
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       const log = todayLog();
       log.photo = canvas.toDataURL("image/jpeg", 0.82);
-      log.video = "";
       log.unlocked = true;
       log.quote ||= randomQuote();
       saveState();
@@ -437,38 +432,6 @@ function handlePhoto(file) {
     img.src = reader.result;
   };
   reader.readAsDataURL(file);
-}
-
-function handleVideo(file) {
-  if (!file) return;
-  const url = URL.createObjectURL(file);
-  const video = document.createElement("video");
-  video.preload = "metadata";
-  video.onloadedmetadata = () => {
-    URL.revokeObjectURL(url);
-    if (video.duration > 10.4) {
-      showToast("Video must be 10s or less.");
-      els.videoInput.value = "";
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = () => {
-      const log = todayLog();
-      log.video = reader.result;
-      log.photo = "";
-    log.unlocked = true;
-    log.quote ||= randomQuote();
-      saveState();
-      showToast("Video memory added.");
-      render();
-    };
-    reader.readAsDataURL(file);
-  };
-  video.onerror = () => {
-    URL.revokeObjectURL(url);
-    showToast("Video could not be loaded.");
-  };
-  video.src = url;
 }
 
 function switchView(view) {
@@ -574,7 +537,7 @@ function drawShare(ctx, canvas, image, left, stage, log) {
     wrapText(ctx, log.note, 96, 1360, 888, 46);
   }
 
-  els.downloadShare.href = canvas.toDataURL("image/png");
+  els.downloadShare.href = canvas.toDataURL("image/jpeg", 0.92);
 }
 
 function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
@@ -653,7 +616,6 @@ els.customMoodInput.addEventListener("change", () => {
 els.noteInput.addEventListener("input", autoSaveTextLog);
 els.customMoodInput.addEventListener("input", autoSaveTextLog);
 els.photoInput.addEventListener("change", (event) => handlePhoto(event.target.files[0]));
-els.videoInput.addEventListener("change", (event) => handleVideo(event.target.files[0]));
 els.generateShareButton.addEventListener("click", () => {
   generateShareCard();
   showToast("Share card generated.");

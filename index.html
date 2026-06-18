@@ -75,14 +75,11 @@
             <textarea id="noteInput" rows="3" maxlength="80" placeholder="Leave today's signal"></textarea>
           </label>
 
+          <div class="media-heading">TODAY SNAP</div>
           <div class="photo-row">
             <label class="photo-button icon-action" aria-label="Choose image or GIF" title="Choose image or GIF">
               <input id="photoInput" type="file" accept="image/*,.gif" />
               <span class="camera-glyph" aria-hidden="true"></span>
-            </label>
-            <label class="photo-button icon-action" aria-label="Choose video under 10 seconds" title="Choose video under 10 seconds">
-              <input id="videoInput" type="file" accept="video/*" />
-              <span class="video-glyph" aria-hidden="true"></span>
             </label>
           </div>
           <div class="photo-preview empty" id="photoPreview">No memory yet</div>
@@ -118,7 +115,7 @@
           <canvas id="shareCanvas" width="1080" height="1600" aria-label="今日分享图"></canvas>
           <div class="share-actions">
             <button class="secondary-button" id="generateShareButton" type="button">GENERATE</button>
-            <a class="secondary-button link-button" id="downloadShare" download="hello-world-2027-today.png">SAVE IMAGE</a>
+            <a class="secondary-button link-button" id="downloadShare" download="hello-world-2027-today.jpg">SAVE JPG</a>
           </div>
         </section>
       </main>
