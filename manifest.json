@@ -1,0 +1,17 @@
+{
+  "name": "Hello World 2027",
+  "short_name": "HW2027",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#080a10",
+  "theme_color": "#080a10",
+  "description": "A cyber countdown and daily memory log for 2027.",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

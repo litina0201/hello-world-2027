@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#080a10" />
+    <title>Hello World 2027</title>
+    <link rel="manifest" href="./manifest.json" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon.svg" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <section class="boot-screen" id="bootScreen" aria-label="启动页">
+        <div class="boot-grid"></div>
+        <div class="boot-panel">
+          <div class="system-line">SYSTEM://COUNTDOWN_CORE</div>
+          <h1>HELLO<br />WORLD 2027</h1>
+          <p>New world is loading...</p>
+          <button class="primary-button" id="enterButton" type="button">ENTER</button>
+        </div>
+      </section>
+
+      <main class="main-screen" id="mainScreen" aria-label="Hello World 2027">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">HELLO WORLD 2027</p>
+            <h2 id="todayTitle">Today</h2>
+          </div>
+          <button class="ghost-button" id="resetBootButton" type="button" aria-label="重新锁定今日">
+            LOCK
+          </button>
+        </header>
+
+        <section class="countdown-card locked" id="countdownCard">
+          <div class="card-noise"></div>
+          <div class="card-content">
+            <div class="status-row">
+              <span id="stageName">Boot Sequence</span>
+              <span id="lockState">LOCKED</span>
+            </div>
+            <div class="count-number" id="daysLeft">D-354</div>
+            <p class="date-line" id="dateLine">2026.06.18</p>
+            <p class="quote" id="dailyQuote">Tap to unlock today's signal.</p>
+            <button class="unlock-button" id="unlockButton" type="button">UNLOCK TODAY</button>
+          </div>
+        </section>
+
+        <section class="progress-section" aria-label="阶段进度">
+          <div class="progress-copy">
+            <span id="nextCheckpoint">Next checkpoint: D-350</span>
+            <span id="stageProgress">0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </section>
+
+        <section class="panel today-log" id="todayPanel">
+          <div class="panel-heading">
+            <h3>Today Log</h3>
+            <span id="logStatus">waiting</span>
+          </div>
+
+          <div class="mood-grid" id="moodGrid" aria-label="Select status"></div>
+
+          <label class="custom-status">
+            <span>CUSTOM STATUS</span>
+            <input id="customMoodInput" maxlength="12" placeholder="Type today's status" />
+          </label>
+
+          <label class="note-field">
+            <span>TODAY SIGNAL</span>
+            <textarea id="noteInput" rows="3" maxlength="80" placeholder="Leave today's signal"></textarea>
+          </label>
+
+          <div class="photo-row">
+            <label class="photo-button icon-action" aria-label="Choose image or GIF" title="Choose image or GIF">
+              <input id="photoInput" type="file" accept="image/*,.gif" />
+              <span class="camera-glyph" aria-hidden="true"></span>
+            </label>
+            <label class="photo-button icon-action" aria-label="Choose video under 10 seconds" title="Choose video under 10 seconds">
+              <input id="videoInput" type="file" accept="video/*" />
+              <span class="video-glyph" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="photo-preview empty" id="photoPreview">No memory yet</div>
+        </section>
+
+        <section class="panel checkpoints-view hidden" id="checkpointsView">
+          <div class="panel-heading">
+            <h3>Checkpoints</h3>
+            <span>50-day marks</span>
+          </div>
+          <div class="preview-row dev-only">
+            <button class="secondary-button demo-button" id="previewD320Button" type="button">PREVIEW D-320</button>
+            <button class="secondary-button demo-button" id="currentPathButton" type="button">CURRENT PATH</button>
+          </div>
+          <button class="secondary-button demo-button dev-only" id="demoMilestoneButton" type="button">PREVIEW FINAL COLORS</button>
+          <div class="checkpoint-list" id="checkpointList"></div>
+        </section>
+
+        <section class="panel memory-view hidden" id="memoryView">
+          <div class="panel-heading">
+            <h3>Memory</h3>
+            <span id="memoryCount">0 records</span>
+          </div>
+          <button class="secondary-button demo-button dev-only" id="demoMemoryButton" type="button">LOAD DEMO DAYS</button>
+          <div class="memory-grid" id="memoryGrid"></div>
+        </section>
+
+        <section class="panel share-view hidden" id="shareView">
+          <div class="panel-heading">
+            <h3>Share Card</h3>
+            <span>daily poster</span>
+          </div>
+          <canvas id="shareCanvas" width="1080" height="1600" aria-label="今日分享图"></canvas>
+          <div class="share-actions">
+            <button class="secondary-button" id="generateShareButton" type="button">GENERATE</button>
+            <a class="secondary-button link-button" id="downloadShare" download="hello-world-2027-today.png">SAVE IMAGE</a>
+          </div>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" id="bottomNav" aria-label="功能切换">
+        <button class="active" type="button" data-view="today">Today</button>
+        <button type="button" data-view="checkpoints">Milestone</button>
+        <button type="button" data-view="memory">Memory</button>
+        <button type="button" data-view="share">Share</button>
+      </nav>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>
