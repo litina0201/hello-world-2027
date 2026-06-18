@@ -1,4 +1,4 @@
-const CACHE_NAME = "hello-world-2027-v2";
+const CACHE_NAME = "hello-world-2027-v3";
 const ASSETS = [
   "./",
   "./index.html",

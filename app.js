@@ -570,7 +570,6 @@ els.enterButton.addEventListener("click", () => {
 });
 
 els.resetBootButton.addEventListener("click", () => {
-  delete state.logs[todayKey];
   state.entered = false;
   saveState();
   render();
